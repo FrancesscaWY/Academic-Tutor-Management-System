@@ -1,5 +1,5 @@
 <?php
-$pwd=file_get_contents('./src/pw.txt');
+$pwd=file_get_contents('D:\PHP\file\S_T_ADMIN_SYS\src\pw.txt');
 $db_host='localhost';
 $db_user='root';
 $db_password=$pwd;
@@ -16,8 +16,9 @@ $sql1='CREATE TABLE IF NOT EXISTS STUDENTS(
 );';
 mysqli_query($conn,$sql1) or die('Table creation failed');
 echo 'Table_S created successfully<br>';
+
 $SQL2='CREATE TABLE IF NOT EXISTS TUTORS (
-    T_ID INT PRIMARY KEY,
+    T_ID INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     TNO INT(13) NOT NULL,
     TNAME CHAR(20) NOT NULL,
     PROFESSIONAL_TITLE CHAR(20),
@@ -28,8 +29,9 @@ $SQL2='CREATE TABLE IF NOT EXISTS TUTORS (
 );';
 mysqli_query($conn,$SQL2) or die('table_T created error');
 echo'Table_T created successfully<br>';
+
 $sql3='CREATE TABLE IF NOT EXISTS S_CHOICE_T(
-    S_C_ID INT PRIMARY KEY,
+    S_C_ID INT AUTO_INCREMENT PRIMARY KEY,
     SNO INT(13) NOT NULL,
     SNAME CHAR(20) NOT  NULL,
     FRIST_TNO INT(13) NOT NULL,
