@@ -31,8 +31,8 @@ mysqli_query($conn,$SQL2) or die('table_T created error');
 echo'Table_T created successfully<br>';
 
 $sql3='CREATE TABLE IF NOT EXISTS S_CHOICE_T(
-    S_C_ID INT AUTO_INCREMENT PRIMARY KEY,
-    SNO INT(13) NOT NULL,
+    S_C_ID INT AUTO_INCREMENT PRIMARY KEY UNIQUE ,
+    SNO INT(13) NOT NULL UNIQUE ,
     SNAME CHAR(20) NOT  NULL,
     FRIST_TNO INT(13) NOT NULL,
     SECOND_TNO INT(13) ,
@@ -41,7 +41,7 @@ $sql3='CREATE TABLE IF NOT EXISTS S_CHOICE_T(
 mysqli_query($conn,$sql3) or die('table_S_C_T created error');
 echo 'Table_S_C_T created successfully<br>';
 $sql4='CREATE TABLE IF NOT EXISTS T_CHOICE_S(
-    T_C_ID INT PRIMARY KEY,
+    T_C_ID INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
     TNO INT(13) NOT NULL,
     TNAME CHAR(20),
     SNO INT(13) NOT NULL,
@@ -49,3 +49,18 @@ $sql4='CREATE TABLE IF NOT EXISTS T_CHOICE_S(
 );';
 mysqli_query($conn,$sql4) or die('table_T_C_S created error');
 echo 'Table_T_C_S created successfully<br>';
+
+$sql5='CREATE TABLE IF NOT EXISTS STD_ACCOUNT(
+    SA_ID INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+    STD_ACC INT(20) UNIQUE ,
+    STD_PD INT(10) UNIQUE 
+)';
+$sql6='CREATE TABLE IF NOT EXISTS T_ACCOUNT(
+    TA_ID INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+    T_ACC INT(13) UNIQUE ,
+    T_PWD INT(20) UNIQUE 
+)';
+mysqli_query($conn,$sql5) or die('table std_account created error');
+echo 'hi';
+mysqli_query($conn,$sql6) or die('table t_accounr created error');
+echo'hii';
