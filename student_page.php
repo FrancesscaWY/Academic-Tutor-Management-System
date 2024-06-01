@@ -49,11 +49,13 @@ mysqli_close($conn);
 </head>
 <body>
     <h1>学生选课</h1>
-    <form action="store_student_choice.php" method="post">
+    <form action="store_std_choice.php" method="post">
         <label for="sno">学号:</label>
         <input type="text" name="sno" id="sno"><br>
         <label for="sname">姓名:</label>
         <input type="text" name="sname" id="sname"><br>
+        <label for="sdept">专业:</label>
+        <input type="text" name="sdept" id="sdept"><br>
         <label for="first_tno">第一志愿教师编号:</label>
         <input type="text" name="first_tno" id="first_tno"><br>
         <label for="second_tno">第二志愿教师编号:</label>

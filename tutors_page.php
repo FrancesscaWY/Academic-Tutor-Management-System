@@ -22,45 +22,54 @@ if(isset($_COOKIE['account'])) {
     echo "Welcome, guest!";
 }
 //从视图中获第一选择是cookie中教师编号的学生信息
-$sql1="SELECT * FROM S_C_VIEW WHERE FRIST_TNO=".$_COOKIE['account'];
+$sql1="SELECT SNO,SNAME,SDEPT FROM S_C_VIEW WHERE FRIST_TNO=".$_COOKIE['account'];
 $sql2="SELECT * FROM S_C_VIEW WHERE SECOND_TNO=".$_COOKIE['account'];
 $sql3="SELECT * FROM S_C_VIEW WHERE THIRD_TNO=".$_COOKIE['account'];
 $result1=mysqli_query($conn,$sql1);
 $result2=mysqli_query($conn,$sql2);
 $result3=mysqli_query($conn,$sql3);
+//显示第一选择是cookie中教师编号的学生信息
 echo "<table border='1'>
 <tr>
 <th>SNO</th>
 <th>SNAME</th>
-<th>FRIST_TNO</th>
-<th>SECOND_TNO</th>
-<th>THIRD_TNO</th>
+<th>SDEPT</th>
 </tr>";
 while($row1=mysqli_fetch_assoc($result1)){
     echo "<tr>";
     echo "<td>".$row1['SNO']."</td>";
     echo "<td>".$row1['SNAME']."</td>";
-    echo "<td>".$row1['FRIST_TNO']."</td>";
-    echo "<td>".$row1['SECOND_TNO']."</td>";
-    echo "<td>".$row1['THIRD_TNO']."</td>";
+    echo "<td>".$row1['SDEPT']."</td>";
     echo "</tr>";
 }
+echo "</table>";
+//显示第二选择是cookie中教师编号的学生信息
+echo "<table border='1'>
+<tr>
+<th>SNO</th>
+<th>SNAME</th>
+<th>SDEPT</th>
+</tr>";
 while($row2=mysqli_fetch_assoc($result2)){
     echo "<tr>";
     echo "<td>".$row2['SNO']."</td>";
     echo "<td>".$row2['SNAME']."</td>";
-    echo "<td>".$row2['FRIST_TNO']."</td>";
-    echo "<td>".$row2['SECOND_TNO']."</td>";
-    echo "<td>".$row2['THIRD_TNO']."</td>";
+    echo "<td>".$row2['SDEPT']."</td>";
     echo "</tr>";
 }
+echo "</table>";
+//显示第三选择是cookie中教师编号的学生信息
+echo "<table border='1'>
+<tr>
+<th>SNO</th>
+<th>SNAME</th>
+<th>SDEPT</th>
+</tr>";
 while($row3=mysqli_fetch_assoc($result3)){
     echo "<tr>";
     echo "<td>".$row3['SNO']."</td>";
     echo "<td>".$row3['SNAME']."</td>";
-    echo "<td>".$row3['FRIST_TNO']."</td>";
-    echo "<td>".$row3['SECOND_TNO']."</td>";
-    echo "<td>".$row3['THIRD_TNO']."</td>";
+    echo "<td>".$row3['SDEPT']."</td>";
     echo "</tr>";
 }
 echo "</table>";
