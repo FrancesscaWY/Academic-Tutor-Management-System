@@ -9,6 +9,7 @@ $conn = mysqli_connect($db_host, $db_user, $pwd, $db_name) or die('Database conn
 $account = $_POST['account'];
 $password = $_POST['password'];
 $user_type = $_POST['user_type'];
+echo  $account;
 if ($user_type == 'student') {
     $sql = "SELECT * FROM STD_ACCOUNT WHERE STD_ACC = ? AND STD_PD = ?";
     $stmt_prepare = mysqli_prepare($conn, $sql);//预处理
@@ -45,13 +46,16 @@ if ($user_type == 'tutor') {
         $status = 0;
     }
 //    echo $status;
+
     if ($status == 1) {
-        setcookie('account', $account, time() + 3600, '/');
+        setcookie('account', $account, time() + 3600, '/');//设置cookie
+        //如何读取整个account中的值，而不是只有一个数字
         header("refresh:3;url=../tutors_page.php");//跳转到教师页面
         echo '登录成功，3秒后跳转到教师页面';
     }else{
         echo '登录失败';
     }
 }
+echo $_COOKIE['account'];
 mysqli_close($conn);
 ?>
