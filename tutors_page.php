@@ -13,9 +13,9 @@ if(isset($_COOKIE['account'])) {
 } else {
     echo "Welcome, guest!";
 }
-echo $_COOKIE['account'];
+echo $_COOKIE['copy_account'];
 //为什么存入的COOKie只有一个数字，而不是账号
-$sql="SELECT SNO,SNAME,SDEPT FROM S_CHOICE_T WHERE FRIST_TNO=".$_COOKIE['account'];
+$sql="SELECT SNO,SNAME,SDEPT FROM S_CHOICE_T WHERE FRIST_TNO=".$_COOKIE['copy_account'];
 $result=mysqli_query($conn,$sql);
 if(mysqli_num_rows($result)>0){
     while($row=mysqli_fetch_assoc($result)){

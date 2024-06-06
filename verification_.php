@@ -10,7 +10,7 @@ $account = $_POST['account'];
 $password = $_POST['password'];
 $user_type = $_POST['user_type'];
 $copy_account = $_POST['account'];
-
+//$account后面的被处理函数处理过后值会改变，所以要在这里保存一下，以便后面存入cookie时使用使用
 
 if ($user_type == 'student') {
     $sql = "SELECT * FROM STD_ACCOUNT WHERE STD_ACC = ? AND STD_PD = ?";
