@@ -32,6 +32,20 @@ while($row=mysqli_fetch_array($result)){
 echo "</table>";
 mysqli_close($conn);
 ?>
+<?php
+$pwd=file_get_contents('./src/pw.txt');
+$db_host='localhost';
+$db_user='root';
+$db_password=$pwd;
+$db_name='Academic_Tutor_Management_System';
+$conn=mysqli_connect($db_host,$db_user,$db_password,$db_name) or die('Database connection error');
+$sql1="SELECT SNO,SNAME,SDEPT FROM STUDENTS WHERE SNO=".$_COOKIE['copy_account'];
+$result1=mysqli_query($conn,$sql1);
+$row1=mysqli_fetch_assoc($result1);
+$NAME=$row1['SNAME'];
+$DEPT=$row1['SDEPT'];
+$SNO=$row1['SNO'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +63,7 @@ mysqli_close($conn);
 </head>
 <body>
     <h1>学生选课</h1>
-    <form action="store_std_choice.php" method="post">
+    <form action="store_std_choice.php" method="POST">
         <label for="sno">学号:</label>
         <input type="text" name="sno" id="sno"><br>
         <label for="sname">姓名:</label>
@@ -65,6 +79,11 @@ mysqli_close($conn);
         <input type="submit" value="提交">
     </form>
 </body>
+<SCRIPT>
+    document.getElementById('sno').value="<?php echo $SNO;?>";
+    document.getElementById('sname').value="<?php echo $NAME;?>";
+    document.getElementById('sdept').value="<?php echo $DEPT;?>";
+</SCRIPT>
 </html>
 
 

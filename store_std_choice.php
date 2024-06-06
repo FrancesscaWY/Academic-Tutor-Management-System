@@ -17,10 +17,10 @@ $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Datab
 // 获取学生选课信息
 $sno = $_POST['sno'];
 $sname = $_POST['sname'];
+$sdept= $_POST['sdept'];
 $first_tno = $_POST['first_tno'];
 $second_tno = $_POST['second_tno'];
 $third_tno = $_POST['third_tno'];
-$sdept= $_POST['sdept'];
 echo $sno.$sname.$first_tno.$second_tno.$third_tno;
 
 // 准备SQL语句
