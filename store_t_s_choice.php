@@ -22,7 +22,7 @@ $stmt=$conn->prepare($sql1);
 $stmt->bind_param('isssss',$tno,$tname,$major,$sno,$sname,$sdept);
 if($stmt->execute()){
     echo'Insert data successfully<br>';
-    $status=1;
+    $status++;
 }else{
     echo'Insert data failed: '.$stmt->error;
 
@@ -33,3 +33,24 @@ echo $status;
 $stmt->close();
 $conn->close();
 ?>
+<html>
+<head>
+    <title>store_t_s_choice</title>
+</head>
+<body>
+    <h1>store_t_s_choice</h1>
+</body>
+<script>
+    let status=<?php echo $status;?>;
+    if(status==1){
+        alert('选择成功');
+    }
+    if(status>1){
+        alert('重复选择');
+    }
+    if(status<1){
+        alert('选择失败');
+    }
+</script>
+
+</html>

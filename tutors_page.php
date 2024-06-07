@@ -86,8 +86,8 @@ mysqli_close($conn);
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <meta charset="zh_cn">
+    <title>导师页面</title>
 </head>
 <body>
 
@@ -96,11 +96,14 @@ mysqli_close($conn);
     //为按钮绑定事件
     var store_T_S = document.getElementsByClassName('t_choice_s');
     //当点击按钮时，将学生的选择存入数据库
-    let sname = document.getElementsByTagName('td')[1].innerText;
-    let sno = document.getElementsByTagName('td')[0].innerText;
-    let sdept = document.getElementsByTagName('td')[2].innerText;
-    for(let i=0;i<store_T_S.length;i++){
+    // let sname = document.getElementsByTagName('td')[1].innerText;
+    // let sno = document.getElementsByTagName('td')[0].innerText;
+    // let sdept = document.getElementsByTagName('td')[2].innerText;
+    for (let i = 0; i < store_T_S.length; i++) {
         store_T_S[i].onclick = function () {
+            let sname = this.parentNode.parentNode.children[1].innerText;
+            let sno = this.parentNode.parentNode.children[0].innerText;
+            let sdept = this.parentNode.parentNode.children[2].innerText;
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'store_t_s_choice.php', true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -112,17 +115,35 @@ mysqli_close($conn);
             }
         }
     }
-    let status = `<?php echo $status?>`;
-    //鼠标点击按钮后，根据status的值弹出提示框
-    for(let i=0;i<store_T_S.length;i++){
-        store_T_S[i].onclick = function () {
-            if(status==0){
-                alert('选择失败');
-            }else{
-                alert('选择成功');
-            }
-    }
-
 </script>
-
+<?php
+$pwd = file_get_contents('D:/PHP/file/S_T_ADMIN_SYS/src/pw.txt');
+$db_host = 'localhost';
+$db_user = 'root';
+$db_password = $pwd;
+$db_name = 'Academic_Tutor_Management_System';
+$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Database connection error');
+echo 'Connected successfully<br>';
+$sql = "SELECT SNO,SNAME,SDEPT FROM T_CHOICE_S WHERE TNO=" . $_COOKIE['copy_account'];
+$result = mysqli_query($conn, $sql);
+echo "<h2>您已选择的学生</h2><table border='1'>
+        <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>专业</th>
+        </tr>";
+while ($row = mysqli_fetch_assoc($result)) {
+    echo "<tr>";
+    echo "<td>" . $row['SNO'] . "</td>";
+    echo "<td>" . $row['SNAME'] . "</td>";
+    echo "<td>" . $row['SDEPT'] . "</td>";
+    echo "</tr>";
+}
+echo "</table>";
+if ($result) {
+    echo "查询成功";
+} else {
+    echo "查询失败";
+}
+?>
 </html>
