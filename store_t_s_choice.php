@@ -14,8 +14,8 @@ $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_assoc($result);
 $tname=$row['TNAME'];
 $tno=$row['TNO'];
-$major=$row['MAJOR'];
-$sql1="INSERT INTO T_CHOICE_S(TNO,TNAME,MAJOR,SNO,SNAME,SDEPT) VALUES(?,?,?,?,?,?)";
+$major=$row['MAJIOR'];
+$sql1="INSERT INTO T_CHOICE_S(TNO,TNAME,MAJIOR,SNO,SNAME,SDEPT) VALUES(?,?,?,?,?,?)";
 $stmt=$conn->prepare($sql1);
 $stmt->bind_param('isssss',$tno,$tname,$major,$sno,$sname,$sdept);
 if($stmt->execute()){
