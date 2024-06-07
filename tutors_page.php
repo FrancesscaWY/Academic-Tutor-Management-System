@@ -112,7 +112,16 @@ mysqli_close($conn);
             }
         }
     }
-
+    let status = `<?php echo $status?>`;
+    //鼠标点击按钮后，根据status的值弹出提示框
+    for(let i=0;i<store_T_S.length;i++){
+        store_T_S[i].onclick = function () {
+            if(status==0){
+                alert('选择失败');
+            }else{
+                alert('选择成功');
+            }
+    }
 
 </script>
 

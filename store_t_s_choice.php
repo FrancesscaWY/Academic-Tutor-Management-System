@@ -9,6 +9,8 @@ echo'Connected successfully<br>';
 $sname=$_POST['sname'];
 $sno=$_POST['sno'];
 $sdept=$_POST['sdept'];
+$status=0;
+
 $sql="SELECT TNAME,TNO,MAJIOR FROM TUTORS WHERE TNO=".$_COOKIE['copy_account'];
 $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_assoc($result);
@@ -20,9 +22,14 @@ $stmt=$conn->prepare($sql1);
 $stmt->bind_param('isssss',$tno,$tname,$major,$sno,$sname,$sdept);
 if($stmt->execute()){
     echo'Insert data successfully<br>';
+    $status=1;
 }else{
     echo'Insert data failed: '.$stmt->error;
+
 }
+//将status返回给tutor_page.php
+echo $status;
+
 $stmt->close();
 $conn->close();
 ?>
