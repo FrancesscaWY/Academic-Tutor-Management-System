@@ -41,12 +41,15 @@ $sql3='CREATE TABLE IF NOT EXISTS S_CHOICE_T(
 );';
 mysqli_query($conn,$sql3) or die('table_S_C_T created error');
 echo 'Table_S_C_T created successfully<br>';
+
 $sql4='CREATE TABLE IF NOT EXISTS T_CHOICE_S(
     T_C_ID INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
     TNO CHAR(13) NOT NULL,
     TNAME CHAR(20),
+    MAJIOR CHAR(20),
     SNO CHAR(13) NOT NULL,
-    SNAME CHAR(20)
+    SNAME CHAR(20),
+    SDEPT CHAR(20)
 );';
 mysqli_query($conn,$sql4) or die('table_T_C_S created error');
 echo 'Table_T_C_S created successfully<br>';
