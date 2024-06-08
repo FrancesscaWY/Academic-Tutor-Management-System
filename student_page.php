@@ -32,7 +32,7 @@ while($row=mysqli_fetch_array($result)){
 echo "</table>";
 mysqli_close($conn);
 ?>
-<?php
+<?php //自动填写学生信息
 $pwd=file_get_contents('./src/pw.txt');
 $db_host='localhost';
 $db_user='root';
