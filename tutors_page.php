@@ -1,4 +1,4 @@
-//将学生的选择以表格形式输出
+<!--//将学生的选择以表格形式输出-->
 <?php
 $pwd = file_get_contents('D:/PHP/file/S_T_ADMIN_SYS/src/pw.txt');
 $db_host = 'localhost';
