@@ -97,19 +97,19 @@ echo "<h2>退选请求</h2><table border='1'>
         <th>操作</th>
     </tr>";
 
-    while ($row = mysqli_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['student_no']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['sname']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['request_message']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['request_date']) . "</td>";
-        echo "<td>
+    echo "<td>" . htmlspecialchars($row['student_no']) . "</td>";
+    echo "<td>" . htmlspecialchars($row['sname']) . "</td>";
+    echo "<td>" . htmlspecialchars($row['request_message']) . "</td>";
+    echo "<td>" . htmlspecialchars($row['request_date']) . "</td>";
+    echo "<td>
             <button onclick=\"handleRequest('approve', " . $row['request_id'] . ")\">同意</button>
             <button onclick=\"handleRequest('reject', " . $row['request_id'] . ")\">拒绝</button>
         </td>";
-        echo "</tr>";
-    }
-    echo "</table>";
+    echo "</tr>";
+}
+echo "</table>";
 ?>
 <!DOCTYPE html>
 <html>
@@ -157,7 +157,7 @@ echo "<h2>退选请求</h2><table border='1'>
 
     function handleRequest(action, requestId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'handle_cancel_request.php', true);
+        xhr.open('POST', 'handle_re.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send('action=' + action + '&request_id=' + requestId);
 
