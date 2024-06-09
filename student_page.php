@@ -81,10 +81,12 @@ if ($row2 = mysqli_fetch_assoc($result2)) {
         }
     }
     mysqli_free_result($result_tutors); // 释放结果集
-
-    // 检查导师是否选择了该学生
-    $sql3 = "SELECT * FROM T_CHOICE_S WHERE SNO = $sno";
-    $result3 = mysqli_query($conn, $sql3);
+}
+mysqli_free_result($result2);
+// 检查导师是否选择了该学生
+$sql3 = "SELECT * FROM T_CHOICE_S WHERE SNO = $sno";
+$result3 = mysqli_query($conn, $sql3);
+if($result3) {
     if ($row3 = mysqli_fetch_assoc($result3)) {
         $re_choose = 1; // 表示导师已选择该学生
         $matched_tno = $row3['TNO'];
@@ -98,8 +100,11 @@ if ($row2 = mysqli_fetch_assoc($result2)) {
         mysqli_free_result($result_matched_tutor); // 释放结果集
     }
     mysqli_free_result($result3); // 释放结果集
+// 释放结果集
 }
-mysqli_free_result($result2); // 释放结果集
+if(!$result3){
+    $re_choose=0;
+}
 
 mysqli_close($conn); // 关闭数据库连接
 ?>
@@ -155,9 +160,9 @@ mysqli_close($conn); // 关闭数据库连接
 <div>
     <h2>导师申请进度</h2>
     <div class="application" id="app_status"></div>
+    <div class="application" id="application_details"></div>
     <div class="application" id="result_status"></div>
     <div class="application" id="review_status"></div>
-    <div class="application" id="application_details"></div>
 </div>
 <div>
     <form id="cancel_request_form" method="post" action="send_cancel_request.php">
@@ -188,10 +193,11 @@ mysqli_close($conn); // 关闭数据库连接
     let matched_tname = "<?php echo $matched_tname; ?>";
 
     // 检查申请状态
-    if (application == 0) {
+    if (application == 0&&re_choose==0) {
         // 情况1: 学生尚未提交申请
         document.getElementById('app_status').innerHTML = '<h3>您尚未提交导师申请</h3>';
         document.getElementById('review_status').innerHTML = '<h3>请填写申请表并提交。</h3>';
+
     } else {
         // 情况2: 学生已提交申请
         document.getElementById('app_status').innerHTML = '<h3>您的导师申请已提交</h3>';
@@ -201,19 +207,22 @@ mysqli_close($conn); // 关闭数据库连接
             <p>第二志愿导师：编号 - ${second_tno}，姓名 - ${second_tname}</p>
             <p>第三志愿导师：编号 - ${third_tno}，姓名 - ${third_tname}</p>
         `;
+    }
+    if (re_choose == 0&&application==1) {
+        // 情况3: 学生已提交申请，但导师尚未选择
+        document.getElementById('review_status').innerHTML = '<h3>导师正在查看您的申请，请耐心等待......</h3>';
+        document.getElementById('result_status').innerHTML = '<h3>您目前还没有被导师选择。</h3>';
+    }
 
-        if (re_choose == 0) {
-            // 情况3: 学生已提交申请，但导师尚未选择
-            document.getElementById('review_status').innerHTML = '<h3>导师正在查看您的申请，请耐心等待......</h3>';
-            document.getElementById('result_status').innerHTML = '<h3>您目前还没有被导师选择。</h3>';
-        } else {
-            // 情况4: 学生已提交申请，且导师已选择
-            document.getElementById('review_status').innerHTML = `
+    if(re_choose=1 && application==0){
+        // 情况4: 学生已提交申请，且导师已选择
+        document.getElementById('review_status').innerHTML = `
                 <h3>导师选择信息：</h3>
                 <p>您已被导师选择：</p>
                 <p>导师编号 - ${matched_tno}，姓名 - ${matched_tname}</p>
             `;
-            document.getElementById('result_status').innerHTML = '<h3>恭喜！您已被导师选择。</h3>';
-        }
+        document.getElementById('result_status').innerHTML = '<h3>恭喜！您已被导师选择。</h3>';
     }
+    console.log(application);
+    console.log(re_choose);
 </script>

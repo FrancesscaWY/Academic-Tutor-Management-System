@@ -23,8 +23,7 @@ if ($action == 'approve') {
 
         // 删除 T_CHOICE_S 表中的对应元组
         $sql_delete = "DELETE FROM T_CHOICE_S WHERE SNO = '$student_no' AND TNO = '$tutor_no'";
-        $sql_delete2="DELETE FROM S_CHOCIE_T WHERE SNO='$student_no'";
-        if (mysqli_query($conn, $sql_delete)&&mysqli_query($conn,$sql_delete2)) {
+        if (mysqli_query($conn, $sql_delete)) {
             // 更新退选请求状态为已同意
             $sql_update_request = "UPDATE CANCELLATION_REQUESTS SET request_status = 'approved' WHERE request_id = $request_id";
             mysqli_query($conn, $sql_update_request);

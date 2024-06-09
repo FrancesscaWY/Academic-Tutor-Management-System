@@ -157,7 +157,7 @@ echo "</table>";
 
     function handleRequest(action, requestId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'handle_re.php', true);
+        xhr.open('POST', 'handle_cancel_request.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send('action=' + action + '&request_id=' + requestId);
 
