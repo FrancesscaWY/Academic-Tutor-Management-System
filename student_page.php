@@ -159,6 +159,14 @@ mysqli_close($conn); // 关闭数据库连接
     <div class="application" id="review_status"></div>
     <div class="application" id="application_details"></div>
 </div>
+<div>
+    <form id="cancel_request_form" method="post" action="send_cancel_request.php">
+        <input type="hidden" name="tutor_no" value="<?php echo $matched_tno; ?>">
+        <input type="hidden" name="student_no" value="<?php echo $sno; ?>">
+        <textarea name="request_message" placeholder="请填写退选原因" required></textarea><br>
+        <button type="submit">发送退选请求</button>
+    </form>
+</div>
 </body>
 
 <script>

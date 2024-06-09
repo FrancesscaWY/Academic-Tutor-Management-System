@@ -57,7 +57,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo "</tr>";
 }
 echo "</table>";
-// 查询已经选择的学生
+
+
+
+
+
+
 $sql_selected = "SELECT SNO, SNAME, SDEPT FROM T_CHOICE_S WHERE TNO='$current_tutor_no'";
 $result_selected = mysqli_query($conn, $sql_selected);
 
@@ -78,35 +83,33 @@ while ($row = mysqli_fetch_assoc($result_selected)) {
 echo "</table>";
 
 
-$sql = "SELECT request_id, student_no, sname, request_message, request_date 
-        FROM CANCELLATION_REQUESTS 
-        WHERE tutor_no = '$current_tutor_no' AND request_status = 'pending'";
+$sql = "SELECT request_id, student_no, sname, request_message, request_date
+FROM CANCELLATION_REQUESTS
+WHERE tutor_no = '$current_tutor_no' AND request_status = 'pending'";
 $result = mysqli_query($conn, $sql);
 
 echo "<h2>退选请求</h2><table border='1'>
-<tr>
-<th>学号</th>
-<th>学生姓名</th>
-<th>请求内容</th>
-<th>请求日期</th>
-<th>操作</th>
-</tr>";
+    <tr>
+        <th>学号</th>
+        <th>学生姓名</th>
+        <th>请求内容</th>
+        <th>请求日期</th>
+        <th>操作</th>
+    </tr>";
 
-while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>";
-    echo "<td>" . htmlspecialchars($row['student_no']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['sname']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['request_message']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['request_date']) . "</td>";
-    echo "<td>
+        echo "<td>" . htmlspecialchars($row['student_no']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['sname']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['request_message']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['request_date']) . "</td>";
+        echo "<td>
             <button onclick=\"handleRequest('approve', " . $row['request_id'] . ")\">同意</button>
             <button onclick=\"handleRequest('reject', " . $row['request_id'] . ")\">拒绝</button>
-          </td>";
-    echo "</tr>";
-}
-echo "</table>";
-
-mysqli_close($conn);
+        </td>";
+        echo "</tr>";
+    }
+    echo "</table>";
 ?>
 <!DOCTYPE html>
 <html>
@@ -115,7 +118,7 @@ mysqli_close($conn);
     <title>导师页面</title>
 </head>
 <body>
-<!-- Ajax 脚本 -->
+</body>
 <script>
     // 为按钮绑定事件
     var store_T_S = document.getElementsByClassName('t_choice_s');
@@ -151,6 +154,7 @@ mysqli_close($conn);
             }
         }
     }
+
     function handleRequest(action, requestId) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'handle_cancel_request.php', true);
@@ -165,5 +169,4 @@ mysqli_close($conn);
         }
     }
 </script>
-</body>
 </html>

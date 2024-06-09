@@ -68,3 +68,16 @@ mysqli_query($conn,$sql5) or die('table std_account created error');
 echo 'hi';
 mysqli_query($conn,$sql6) or die('table t_accounr created error');
 echo'hii';
+
+$sql7="CREATE TABLE IF NOT EXISTS CANCELLATION_REQUESTS(
+    REQUEST_ID INT AUTO_INCREMENT PRIMARY KEY ,
+    STUDENT_NO VARCHAR(13) NOT NULL,
+    SNAME CHAR(20),
+    TUTOR_NO VARCHAR(13) NOT NULL,
+    TNAME CHAR(20),
+    REQUEST_MESSAGE TEXT NOT NULL,
+    REQUEST_STATUS ENUM('PENDING','APPROVED','REJECTED')DEFAULT 'PENDING',
+    REQUEST_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
+)";
+mysqli_query($conn,$sql7) or die('table cancellation_request created error');
+echo 'h_ii_ii';

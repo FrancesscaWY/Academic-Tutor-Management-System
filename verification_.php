@@ -54,7 +54,7 @@ if ($user_type == 'tutor') {
     if ($status == 1) {
          setcookie('copy_account', $copy_account, time() + 3600, '/');//设置cookie
         //如何读取整个account中的值，而不是只有一个数字
-        header("refresh:3;url=../tutors_page.php");//跳转到教师页面
+        header("refresh:3;url=../tutor_page.php");//跳转到教师页面
         echo '登录成功，3秒后跳转到教师页面';
     } else {
         echo '登录失败';
