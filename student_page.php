@@ -36,9 +36,12 @@ mysqli_free_result($result); // 释放结果集
 
 // 获取学生信息
 $sno = $_COOKIE['copy_account'];
-$sql1 = "SELECT SNO, SNAME, SDEPT FROM STUDENTS WHERE SNO = $sno";
-$result1 = mysqli_query($conn, $sql1);
-if ($row1 = mysqli_fetch_assoc($result1)) {
+$sql1 = "SELECT SNO, SNAME, SDEPT FROM STUDENTS WHERE SNO = ?";
+$stmt1 = $conn->prepare($sql1);
+$stmt1->bind_param('s', $sno);
+$stmt1->execute();
+$result1 = $stmt1->get_result();
+if ($row1 = $result1->fetch_assoc()) {
     $NAME = $row1['SNAME'];
     $DEPT = $row1['SDEPT'];
     $SNO = $row1['SNO'];
@@ -48,8 +51,11 @@ if ($row1 = mysqli_fetch_assoc($result1)) {
 mysqli_free_result($result1); // 释放结果集
 
 // 检查是否提交了导师申请
-$sql2 = "SELECT * FROM S_CHOICE_T WHERE SNO = $sno";
-$result2 = mysqli_query($conn, $sql2);
+$sql2 = "SELECT * FROM S_CHOICE_T WHERE SNO = ?";
+$stmt2 = $conn->prepare($sql2);
+$stmt2->bind_param('s', $sno);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
 
 $application = 0;
 $re_choose = 0;
@@ -62,16 +68,19 @@ $third_tname = '';
 $matched_tno = '';
 $matched_tname = '';
 
-if ($row2 = mysqli_fetch_assoc($result2)) {
+if ($row2 = $result2->fetch_assoc()) {
     $application = 1; // 表示申请已提交
     $first_tno = $row2['FRIST_TNO'];
     $second_tno = $row2['SECOND_TNO'];
     $third_tno = $row2['THIRD_TNO'];
 
     // 获取导师的名字
-    $sql_tutors = "SELECT TNO, TNAME FROM TUTORS WHERE TNO IN ('$first_tno', '$second_tno', '$third_tno')";
-    $result_tutors = mysqli_query($conn, $sql_tutors);
-    while ($row_tutor = mysqli_fetch_assoc($result_tutors)) {
+    $sql_tutors = "SELECT TNO, TNAME FROM TUTORS WHERE TNO IN (?, ?, ?)";
+    $stmt_tutors = $conn->prepare($sql_tutors);
+    $stmt_tutors->bind_param('sss', $first_tno, $second_tno, $third_tno);
+    $stmt_tutors->execute();
+    $result_tutors = $stmt_tutors->get_result();
+    while ($row_tutor = $result_tutors->fetch_assoc()) {
         if ($row_tutor['TNO'] == $first_tno) {
             $first_tname = $row_tutor['TNAME'];
         } elseif ($row_tutor['TNO'] == $second_tno) {
@@ -82,38 +91,43 @@ if ($row2 = mysqli_fetch_assoc($result2)) {
     }
     mysqli_free_result($result_tutors); // 释放结果集
 }
-mysqli_free_result($result2);
-// 检查导师是否选择了该学生
-$sql3 = "SELECT * FROM T_CHOICE_S WHERE SNO = $sno";
-$result3 = mysqli_query($conn, $sql3);
-if($result3) {
-    if ($row3 = mysqli_fetch_assoc($result3)) {
-        $re_choose = 1; // 表示导师已选择该学生
-        $matched_tno = $row3['TNO'];
+mysqli_free_result($result2); // 释放结果集
 
-        // 获取匹配导师的名字
-        $sql_matched_tutor = "SELECT TNAME FROM TUTORS WHERE TNO = '$matched_tno'";
-        $result_matched_tutor = mysqli_query($conn, $sql_matched_tutor);
-        if ($row_matched_tutor = mysqli_fetch_assoc($result_matched_tutor)) {
-            $matched_tname = $row_matched_tutor['TNAME'];
-        }
-        mysqli_free_result($result_matched_tutor); // 释放结果集
+// 检查导师是否选择了该学生
+$sql3 = "SELECT * FROM T_CHOICE_S WHERE SNO = ?";
+$stmt3 = $conn->prepare($sql3);
+$stmt3->bind_param('s', $sno);
+$stmt3->execute();
+$result3 = $stmt3->get_result();
+if($row3 = $result3->fetch_assoc()) {
+    $re_choose = 1; // 表示导师已选择该学生
+    $matched_tno = $row3['TNO'];
+
+    // 获取匹配导师的名字
+    $sql_matched_tutor = "SELECT TNAME FROM TUTORS WHERE TNO = ?";
+    $stmt_matched_tutor = $conn->prepare($sql_matched_tutor);
+    $stmt_matched_tutor->bind_param('s', $matched_tno);
+    $stmt_matched_tutor->execute();
+    $result_matched_tutor = $stmt_matched_tutor->get_result();
+    if ($row_matched_tutor = $result_matched_tutor->fetch_assoc()) {
+        $matched_tname = $row_matched_tutor['TNAME'];
     }
-    mysqli_free_result($result3); // 释放结果集
-// 释放结果集
+    mysqli_free_result($result_matched_tutor); // 释放结果集
 }
-if(!$result3){
-    $re_choose=0;
+mysqli_free_result($result3); // 释放结果集
+if (!$result3) {
+    $re_choose = 0;
 }
 
 mysqli_close($conn); // 关闭数据库连接
 ?>
 
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
+    <meta charset="UTF-8">
     <title>学生页面</title>
-    <meta charset="zh_cn">
     <style>
         table {
             width: 100%;
@@ -144,11 +158,11 @@ mysqli_close($conn); // 关闭数据库连接
 <h1>选择导师</h1>
 <form action="store_std_choice.php" method="POST">
     <label for="sno">学号:</label>
-    <input type="text" name="sno" id="sno"><br>
+    <input type="text" name="sno" id="sno" readonly><br>
     <label for="sname">姓名:</label>
-    <input type="text" name="sname" id="sname"><br>
+    <input type="text" name="sname" id="sname" readonly><br>
     <label for="sdept">专业:</label>
-    <input type="text" name="sdept" id="sdept"><br>
+    <input type="text" name="sdept" id="sdept" readonly><br>
     <label for="first_tno">第一志愿教师编号:</label>
     <input type="text" name="first_tno" id="first_tno"><br>
     <label for="second_tno">第二志愿教师编号:</label>
@@ -164,7 +178,8 @@ mysqli_close($conn); // 关闭数据库连接
     <div class="application" id="result_status"></div>
     <div class="application" id="review_status"></div>
 </div>
-<div>
+<div id="cancel_request_div" style="display: none;">
+    <h2>退选申请</h2>
     <form id="cancel_request_form" method="post" action="send_cancel_request.php">
         <input type="hidden" name="tutor_no" value="<?php echo $matched_tno; ?>">
         <input type="hidden" name="student_no" value="<?php echo $sno; ?>">
@@ -173,7 +188,6 @@ mysqli_close($conn); // 关闭数据库连接
     </form>
 </div>
 </body>
-
 <script>
     // 自动填写学生信息
     document.getElementById('sno').value = "<?php echo $SNO; ?>";
@@ -193,7 +207,7 @@ mysqli_close($conn); // 关闭数据库连接
     let matched_tname = "<?php echo $matched_tname; ?>";
 
     // 检查申请状态
-    if (application == 0&&re_choose==0) {
+    if (application == 0 && re_choose == 0) {
         // 情况1: 学生尚未提交申请
         document.getElementById('app_status').innerHTML = '<h3>您尚未提交导师申请</h3>';
         document.getElementById('review_status').innerHTML = '<h3>请填写申请表并提交。</h3>';
@@ -208,21 +222,25 @@ mysqli_close($conn); // 关闭数据库连接
             <p>第三志愿导师：编号 - ${third_tno}，姓名 - ${third_tname}</p>
         `;
     }
-    if (re_choose == 0&&application==1) {
+
+    // 检查导师选择状态
+    if (re_choose == 0 && application == 1) {
         // 情况3: 学生已提交申请，但导师尚未选择
         document.getElementById('review_status').innerHTML = '<h3>导师正在查看您的申请，请耐心等待......</h3>';
         document.getElementById('result_status').innerHTML = '<h3>您目前还没有被导师选择。</h3>';
+    } else if (re_choose == 1) {
+        // 情况4: 学生被导师选择
+        document.getElementById('review_status').innerHTML = `
+            <h3>导师选择信息：</h3>
+            <p>您已被导师选择：</p>
+            <p>导师编号 - ${matched_tno}，姓名 - ${matched_tname}</p>
+        `;
+        document.getElementById('result_status').innerHTML = '<h3>恭喜！您已被导师选择。</h3>';
+        document.getElementById('cancel_request_div').style.display = 'block'; // 显示退选表单
     }
 
-    if(re_choose=1 && application==0){
-        // 情况4: 学生已提交申请，且导师已选择
-        document.getElementById('review_status').innerHTML = `
-                <h3>导师选择信息：</h3>
-                <p>您已被导师选择：</p>
-                <p>导师编号 - ${matched_tno}，姓名 - ${matched_tname}</p>
-            `;
-        document.getElementById('result_status').innerHTML = '<h3>恭喜！您已被导师选择。</h3>';
-    }
-    console.log(application);
-    console.log(re_choose);
+    // 调试信息
+    console.log("application: " + application);
+    console.log("re_choose: " + re_choose);
 </script>
+</html>
