@@ -67,7 +67,7 @@ $second_tname = '';
 $third_tname = '';
 $matched_tno = '';
 $matched_tname = '';
-
+$cancel_status='';
 if ($row2 = $result2->fetch_assoc()) {
     $application = 1; // 表示申请已提交
     $first_tno = $row2['FRIST_TNO'];
@@ -119,6 +119,15 @@ if (!$result3) {
     $re_choose = 0;
 }
 
+$sql4="SELECT * FROM CANCELLATION_REQUESTS WHERE STUDENT_NO = ?";
+$stmt4 = $conn->prepare($sql4);
+$stmt4->bind_param('s', $sno);
+$stmt4->execute();
+$result4 = $stmt4->get_result();
+if($row4=$result4->fetch_assoc()){
+    $cancel_status = $row4['REQUEST_STATUS'];
+}
+mysqli_free_result($result4); // 释放结果集
 mysqli_close($conn); // 关闭数据库连接
 ?>
 
@@ -183,10 +192,13 @@ mysqli_close($conn); // 关闭数据库连接
     <form id="cancel_request_form" method="post" action="send_cancel_request.php">
         <input type="hidden" name="tutor_no" value="<?php echo $matched_tno; ?>">
         <input type="hidden" name="student_no" value="<?php echo $sno; ?>">
+        <input type="hidden" name="student_name" value="<?php echo$NAME ?>">
         <textarea name="request_message" placeholder="请填写退选原因" required></textarea><br>
         <button type="submit">发送退选请求</button>
     </form>
 </div>
+<h2>退选进度</h2>
+<div id="cancel_status"></div>
 </body>
 <script>
     // 自动填写学生信息
@@ -205,7 +217,8 @@ mysqli_close($conn); // 关闭数据库连接
     let third_tname = "<?php echo $third_tname; ?>";
     let matched_tno = "<?php echo $matched_tno; ?>";
     let matched_tname = "<?php echo $matched_tname; ?>";
-
+    let cancel_status = "<?php echo $cancel_status; ?>";
+    console.log(cancel_status);
     // 检查申请状态
     if (application == 0 && re_choose == 0) {
         // 情况1: 学生尚未提交申请
@@ -239,8 +252,18 @@ mysqli_close($conn); // 关闭数据库连接
         document.getElementById('cancel_request_div').style.display = 'block'; // 显示退选表单
     }
 
+    if(cancel_status==='PENDING'){
+        document.getElementById('cancel_status').innerHTML = '<h3>您已提交退选申请，请耐心等待导师处理。</h3>';
+    }else if(cancel_status==='APPROVED'){
+        document.getElementById('cancel_status').innerHTML = '<h3>您的退选申请已被导师批准。</h3>';
+    }else if(cancel_status==='REJECTED') {
+        document.getElementById('cancel_status').innerHTML = '<h3>您的退选申请已被导师拒绝。</h3>';
+    }else if(cancel_status===''){
+        document.getElementById('cancel_status').innerHTML = '<h3>您尚未提交退选申请。</h3>';
+    }
     // 调试信息
     console.log("application: " + application);
     console.log("re_choose: " + re_choose);
+
 </script>
 </html>

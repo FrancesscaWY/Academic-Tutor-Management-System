@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $request_message = $_POST['request_message'];
 
     // 获取当前学生和导师的姓名（假设这两个变量是可用的）
-    $student_name = $_COOKIE['student_name']; // 从cookie获取学生姓名
+    $student_name = $_POST['student_name']; // 从cookie获取学生姓名
     $tutor_name = getTutorName($tutor_no); // 从数据库获取导师姓名的自定义函数
 
     $sql = "INSERT INTO CANCELLATION_REQUESTS (student_no, tutor_no, sname, tname, request_message, request_date, request_status)
