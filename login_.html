@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>登录页面</title>
+    <link rel="stylesheet" href="./src/login.css">
 </head>
 <body>
-<div>
+<div id="main">
+<div id="login">
     <form action="verification_.php" method="post" target="_self">
         <h1>Login</h1>
         <label>用户类型:
@@ -24,15 +26,16 @@
             <input type="password" id="password" name="password" placeholder="Password">
         </label>
         <br>
-        <label>记住密码:
+        <label id="remember">记住密码:
             <input type="checkbox" id="check_box" name="remember">
         </label>
         <br>
-        <input type="reset" id="reset_" name="reset" value="Reset">
         <br>
-        <input type="submit" id="submit_" name="submit" value="Login">
+        <input type="reset" id="reset_" name="reset" value="重置">
+        <br>
+        <input type="submit" id="submit_" name="submit" value="登录">
     </form>
 </div>
-
+</div>
 </body>
 </html>

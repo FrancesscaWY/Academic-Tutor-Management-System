@@ -1,0 +1,81 @@
+#main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+#login{
+    width: 400px;
+    padding: 20px 50px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+#login h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+#login input{
+    width: 95%;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+#login input[type="reset"],input[type="submit"]{
+    width: 95%;
+    padding: 10px;
+    margin-top:10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #4CAF50;
+    color: white;
+    /*font-weight: bold;*/
+    font-size: 25px;
+    font-family: '黑体';
+}
+#login input[type="reset"]:hover,input[type="submit"]:hover{
+    background-color: #45a049;
+}
+
+/*#login button{*/
+/*    width: 100%;*/
+/*    padding: 10px;*/
+/*    margin: 10px 10px;*/
+/*    border-radius: 5px;*/
+/*    border: 1px solid #ccc;*/
+/*    background-color: #4CAF50;*/
+/*    color: white;*/
+/*    font-weight: bold;*/
+/*}*/
+#login button:hover{
+    background-color: #45a049;
+}
+#login a{
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+#login a:hover{
+    text-decoration: underline;
+}
+#login select{
+    width:100%;
+    padding: 10px;
+    margin: 15px 0;
+}
+/*//让记住密码的checkbox为inline*/
+#login label{
+    display: inline;
+    font-family: '黑体';
+    font-size:27px;
+}
+/*//让记住密码的checkbox为inline*/
+#login input[type="checkbox"]{
+    width: 10%;
+    display: inline;
+    height: 18px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}

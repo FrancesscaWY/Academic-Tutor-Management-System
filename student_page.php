@@ -137,33 +137,11 @@ mysqli_close($conn); // 关闭数据库连接
 <head>
     <meta charset="UTF-8">
     <title>学生页面</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        .application {
-            border: 1px solid black;
-            margin: 10px;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="./src/student_page.css">
+
 </head>
 <body>
+<div id="main">
 <h1>选择导师</h1>
 <form action="store_std_choice.php" method="POST">
     <label for="sno">学号:</label>
@@ -199,6 +177,7 @@ mysqli_close($conn); // 关闭数据库连接
 </div>
 <h2>退选进度</h2>
 <div id="cancel_status"></div>
+</div>
 </body>
 <script>
     // 自动填写学生信息
