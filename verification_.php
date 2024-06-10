@@ -30,7 +30,7 @@ if ($user_type == 'student') {
     if ($status == 1) {
         setcookie("copy_account", $copy_account, time() + (86400 * 30), "/"); // 86400 = 1 day
         echo "Cookie 'copy_account' set with value: $copy_account";
-        header("refresh:3;url=../student_page.php");//跳转到学生页面
+        header("refresh:3;url=../student__page.php");//跳转到学生页面
         echo "账户为" . $account;
         echo '登录成功，3秒后跳转到学生页面';
     } else {

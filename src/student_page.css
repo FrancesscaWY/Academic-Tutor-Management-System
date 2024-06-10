@@ -1,0 +1,137 @@
+/* student_page.css */
+
+/* 重置浏览器默认样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 整体布局 */
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+}
+
+/* 左侧导航栏 */
+#sidebar {
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#sidebar h2 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+#sidebar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    width: 100%;
+    text-align: left;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: background 0.3s;
+}
+
+#sidebar a:hover, #sidebar a.active {
+    background-color: #575757;
+}
+
+/* 右侧内容区 */
+#main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.content-section {
+    display: none;
+}
+
+/* 默认显示第一个内容区 */
+.content-section:first-of-type {
+    display: block;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+/* 表单样式 */
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"],
+button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #45a049;
+}
+
+/* 动态消息显示区样式 */
+#cancel_request_div,
+#app_status,
+#review_status,
+#result_status,
+#cancel_status {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+/* 显示隐藏的动态消息 */
+#cancel_request_div {
+    display: none;
+}
