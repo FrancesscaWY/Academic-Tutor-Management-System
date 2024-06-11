@@ -41,7 +41,7 @@ $result = mysqli_query($conn, $sql);
 <head>
     <meta charset="zh_cn">
     <title>导师页面</title>
-    <link rel="stylesheet" type="text/css" href="src/tutor__.css">
+    <link rel="stylesheet" href="src/tutor__.css">
 </head>
 <body>
 <div id="container">

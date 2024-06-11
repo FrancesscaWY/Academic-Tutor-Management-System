@@ -44,7 +44,7 @@ $second_tname = '';
 $third_tname = '';
 $matched_tno = '';
 $matched_tname = '';
-$cancel_status='';
+$cancel_status = '';
 if ($row2 = $result2->fetch_assoc()) {
     $application = 1; // 表示申请已提交
     $first_tno = $first_tno = $row2['FRIST_TNO'];
@@ -76,7 +76,7 @@ $stmt3 = $conn->prepare($sql3);
 $stmt3->bind_param('s', $sno);
 $stmt3->execute();
 $result3 = $stmt3->get_result();
-if($row3 = $result3->fetch_assoc()) {
+if ($row3 = $result3->fetch_assoc()) {
     $re_choose = 1; // 表示导师已选择该学生
     $matched_tno = $row3['TNO'];
 
@@ -97,12 +97,12 @@ if (!$result3) {
 }
 
 // 检查退选申请状态
-$sql4="SELECT * FROM CANCELLATION_REQUESTS WHERE STUDENT_NO = ?";
+$sql4 = "SELECT * FROM CANCELLATION_REQUESTS WHERE STUDENT_NO = ?";
 $stmt4 = $conn->prepare($sql4);
 $stmt4->bind_param('s', $sno);
 $stmt4->execute();
 $result4 = $stmt4->get_result();
-if($row4=$result4->fetch_assoc()){
+if ($row4 = $result4->fetch_assoc()) {
     $cancel_status = $row4['REQUEST_STATUS'];
 }
 mysqli_free_result($result4); // 释放结果集
@@ -175,28 +175,41 @@ mysqli_close($conn); // 关闭数据库连接
     </style>
 </head>
 <body>
-    <!-- 左侧导航栏 -->
-    <div id="sidebar">
-        <h2>导航</h2>
-        <a href="#" onclick="showSection('home')">首页</a>
-        <a href="#" onclick="showSection('view_tutors')">查看导师信息</a>
-        <a href="#" onclick="showSection('apply_tutor')">申请导师</a>
-        <a href="#" onclick="showSection('cancel_tutor')">退选导师</a>
-        <a href="#" onclick="showSection('application_record')">申请记录</a>
-        <a href="#" onclick="showSection('cancellation_record')">退选记录</a>
-    </div>
+<!-- 左侧导航栏 -->
+<div id="sidebar">
+    <h2>学生页面导航栏</h2>
+    <a href="#" onclick="showSection('home')">首页</a>
+    <a href="#" onclick="showSection('view_tutors')">查看导师信息</a>
+    <a href="#" onclick="showSection('apply_tutor')">申请导师</a>
+    <a href="#" onclick="showSection('cancel_tutor')">退选导师</a>
+    <a href="#" onclick="showSection('application_record')">申请记录</a>
+    <a href="#" onclick="showSection('cancellation_record')">退选记录</a>
+</div>
 
-    <!-- 右侧内容展示区域 -->
-    <div id="main-content">
-        <div id="home" class="content-section">
-            <h1>欢迎来到学生页面</h1>
-            <p>使用左侧导航栏查看和管理您的导师选择。</p>
-        </div>
-        <div id="view_tutors" class="content-section" style="display:none;">
-            <h1>导师信息</h1>
-            <?php
-            // 显示导师信息的表格
-            echo "<table border='1' id='chose_teacher'>
+<!-- 右侧内容展示区域 -->
+<div id="main-content">
+    <div id="home" class="content-section">
+        <h1>欢迎来到学业导师管理系统</h1>
+        <h3>欢迎使用亲贴学业导师管理系统！
+            <br>我们的系统旨在为学生提供便捷的导师管理功能，确保每位学生都能找到最合适的导师来指导他们的学术研究和职业发展。<br>
+            以下是我们的主要功能介绍：
+        </h3>
+        <ul>
+            <li>选择导师</li>
+            <p>学生可以通过系统浏览导师的详细信息，包括导师的研究领域、学术成就和联系方式等。系统提供智能推荐功能，根据学生的学术兴趣和需求，推荐最匹配的导师。学生可以根据自己的意愿，方便地在线提交导师选择申请。</p>
+            <li>退选导师</li>
+            <p>如果学生在指导过程中发现当前导师不符合自己的需求，系统允许学生在线申请退选导师。退选申请将会在导师和相关管理部门审核后生效，确保学生能够及时调整自己的指导安排。</p>
+            <li>查询操作记录</li>
+            <p>系统记录所有的操作日志，学生和导师都可以查询到相关的操作记录，包括导师选择、退选以及其他重要操作。这些记录有助于保障操作的透明性和公正性，确保每一位学生和导师的权益得到有效保护。</p>
+        </ul>
+       <h3> 我们的目标是通过这一系统，为学生提供一个高效、透明、灵活的导师管理平台，助力每一位学生在学术道路上取得优异的成绩。
+           <br>欢迎使用亲贴学业导师管理系统，开启您的学术新篇章！</h3>
+    </div>
+    <div id="view_tutors" class="content-section" style="display:none;">
+        <h1>导师信息</h1>
+        <?php
+        // 显示导师信息的表格
+        echo "<table border='1' id='chose_teacher'>
             <tr>
             <th>序号</th>
             <th>教师编号</th>
@@ -206,62 +219,62 @@ mysqli_close($conn); // 关闭数据库连接
             <th>专业</th>
             <th>研究方向</th>
             </tr>";
-            while ($row = mysqli_fetch_array($result)) {
-                echo "<tr>";
-                echo "<td>" . $row['T_ID'] . "</td>";
-                echo "<td>" . $row['TNO'] . "</td>";
-                echo "<td>" . $row['TNAME'] . "</td>";
-                echo "<td>" . $row['PROFESSIONAL_TITLE'] . "</td>";
-                echo "<td>" . $row['TSEX'] . "</td>";
-                echo "<td>" . $row['MAJIOR'] . "</td>";
-                echo "<td>" . $row['RESEARCH_FIELD'] . "</td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-            ?>
-        </div>
-        <div id="apply_tutor" class="content-section" style="display:none;">
-            <h1>申请导师</h1>
-            <form action="store_std_choice.php" method="POST">
-                <label for="sno">学号:</label>
-                <input type="text" name="sno" id="sno" readonly><br>
-                <label for="sname">姓名:</label>
-                <input type="text" name="sname" id="sname" readonly><br>
-                <label for="sdept">专业:</label>
-                <input type="text" name="sdept" id="sdept" readonly><br>
-                <label for="first_tno">第一志愿教师编号:</label>
-                <input type="text" name="first_tno" id="first_tno"><br>
-                <label for="second_tno">第二志愿教师编号:</label>
-                <input type="text" name="second_tno" id="second_tno"><br>
-                <label for="third_tno">第三志愿教师编号:</label>
-                <input type="text" name="third_tno" id="third_tno"><br>
-                <input type="submit" value="提交">
+        while ($row = mysqli_fetch_array($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['T_ID'] . "</td>";
+            echo "<td>" . $row['TNO'] . "</td>";
+            echo "<td>" . $row['TNAME'] . "</td>";
+            echo "<td>" . $row['PROFESSIONAL_TITLE'] . "</td>";
+            echo "<td>" . $row['TSEX'] . "</td>";
+            echo "<td>" . $row['MAJIOR'] . "</td>";
+            echo "<td>" . $row['RESEARCH_FIELD'] . "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+        ?>
+    </div>
+    <div id="apply_tutor" class="content-section" style="display:none;">
+        <h1>申请导师</h1>
+        <form action="store_std_choice.php" method="POST">
+            <label for="sno">学号:</label>
+            <input type="text" name="sno" id="sno" readonly><br>
+            <label for="sname">姓名:</label>
+            <input type="text" name="sname" id="sname" readonly><br>
+            <label for="sdept">专业:</label>
+            <input type="text" name="sdept" id="sdept" readonly><br>
+            <label for="first_tno">第一志愿教师编号:</label>
+            <input type="text" name="first_tno" id="first_tno"><br>
+            <label for="second_tno">第二志愿教师编号:</label>
+            <input type="text" name="second_tno" id="second_tno"><br>
+            <label for="third_tno">第三志愿教师编号:</label>
+            <input type="text" name="third_tno" id="third_tno"><br>
+            <input type="submit" value="提交">
+        </form>
+    </div>
+    <div id="cancel_tutor" class="content-section" style="display:none;">
+        <h1>退选导师</h1>
+        <div id="cancel_request_div" style="display: none;">
+            <form id="cancel_request_form" method="post" action="send_cancel_request.php">
+                <input type="hidden" name="tutor_no" value="<?php echo $matched_tno; ?>">
+                <input type="hidden" name="student_no" value="<?php echo $sno; ?>">
+                <input type="hidden" name="student_name" value="<?php echo $NAME ?>">
+                <textarea name="request_message" placeholder="请填写退选原因" required></textarea><br>
+                <button type="submit">发送退选请求</button>
             </form>
         </div>
-        <div id="cancel_tutor" class="content-section" style="display:none;">
-            <h1>退选导师</h1>
-            <div id="cancel_request_div" style="display: none;">
-                <form id="cancel_request_form" method="post" action="send_cancel_request.php">
-                    <input type="hidden" name="tutor_no" value="<?php echo $matched_tno; ?>">
-                    <input type="hidden" name="student_no" value="<?php echo $sno; ?>">
-                    <input type="hidden" name="student_name" value="<?php echo$NAME ?>">
-                    <textarea name="request_message" placeholder="请填写退选原因" required></textarea><br>
-                    <button type="submit">发送退选请求</button>
-                </form>
-            </div>
-        </div>
-        <div id="application_record" class="content-section" style="display:none;">
-            <h1>申请记录</h1>
-            <div class="application" id="app_status"></div>
-            <div class="application" id="application_details"></div>
-            <div class="application" id="result_status"></div>
-            <div class="application" id="review_status"></div>
-        </div>
-        <div id="cancellation_record" class="content-section" style="display:none;">
-            <h1>退选记录</h1>
-            <div id="cancel_status"></div>
-        </div>
     </div>
+    <div id="application_record" class="content-section" style="display:none;">
+        <h1>申请记录</h1>
+        <div class="application" id="app_status"></div>
+        <div class="application" id="application_details"></div>
+        <div class="application" id="result_status"></div>
+        <div class="application" id="review_status"></div>
+    </div>
+    <div id="cancellation_record" class="content-section" style="display:none;">
+        <h1>退选记录</h1>
+        <div id="cancel_status"></div>
+    </div>
+</div>
 </body>
 
 
@@ -332,13 +345,13 @@ mysqli_close($conn); // 关闭数据库连接
     }
 
     // 退选申请状态检查
-    if(cancel_status === 'PENDING'){
+    if (cancel_status === 'PENDING') {
         document.getElementById('cancel_status').innerHTML = '<h3>您已提交退选申请，请耐心等待导师处理。</h3>';
-    }else if(cancel_status === 'APPROVED'){
+    } else if (cancel_status === 'APPROVED') {
         document.getElementById('cancel_status').innerHTML = '<h3>您的退选申请已被导师批准。</h3>';
-    }else if(cancel_status === 'REJECTED') {
+    } else if (cancel_status === 'REJECTED') {
         document.getElementById('cancel_status').innerHTML = '<h3>您的退选申请已被导师拒绝。</h3>';
-    }else if(cancel_status === ''){
+    } else if (cancel_status === '') {
         document.getElementById('cancel_status').innerHTML = '<h3>您尚未提交退选申请。</h3>';
     }
 
