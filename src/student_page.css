@@ -24,11 +24,13 @@ body {
     flex-direction: column;
     align-items: start;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    /*font-size: large;*/
 }
 
 #sidebar h2 {
     color: #fff;
     margin-bottom: 20px;
+    text-shadow: black 2px 2px 2px;
 }
 
 #sidebar a {
@@ -51,6 +53,8 @@ body {
     flex-grow: 1;
     padding: 20px;
     overflow-y: auto;
+    /*min-height: 100vh;*/
+    /*height: 100vh;  */
     background-color: #f9f9f9;
 }
 
@@ -123,7 +127,8 @@ button:hover {
 #app_status,
 #review_status,
 #result_status,
-#cancel_status {
+#cancel_status,
+#application_details{
     margin-top: 20px;
     padding: 15px;
     border: 1px solid #ddd;
@@ -135,17 +140,17 @@ button:hover {
 #cancel_request_div {
     display: none;
 }
-h1{
+#home h1{
     font-family:' 华文楷体';
     margin-left: 100px;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
-h3{
-    font-size: 20px;
+#home h3{
+    font-size: 23px;
     font-family: '楷体';
     margin-left: 100px;
-    margin-top: 50px;
+    margin-top: 10px;
     margin-bottom: 20px;
     line-height: 43px;
 }
@@ -154,6 +159,15 @@ li{
     margin-top:10px;
     /*font-family: '楷体';*/
     font-size: 25px;
+    line-height: 40px;
+    /*//无需列表的序号，设置为none*/
+    list-style-type: none;
+    background-color: #4CAF50;
+    color: #ffffff;
+    text-shadow: #333333 1px 1px 1px;
+    border-radius: 10px;
+    width:auto;
+    padding-left: 10px;
 }
 p{
     margin-left: 100px;
@@ -163,4 +177,12 @@ p{
     padding:10px;
     /*//设置行间距*/
     line-height: 40px;
+}
+.application{
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    /*margin-top: 20px;*/
+    /*//根据内容确定高度*/
+    height: 100%;
 }

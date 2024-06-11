@@ -106,7 +106,6 @@ if ($row4 = $result4->fetch_assoc()) {
     $cancel_status = $row4['REQUEST_STATUS'];
 }
 mysqli_free_result($result4); // 释放结果集
-
 mysqli_close($conn); // 关闭数据库连接
 ?>
 
@@ -169,7 +168,7 @@ mysqli_close($conn); // 关闭数据库连接
             background-color: #f4f4f4;
         }
 
-        #cancel_request_div, #app_status, #review_status, #result_status, #cancel_status {
+        #cancel_request_div, #app_status, #review_status, #result_status, #cancel_status{
             margin-top: 20px;
         }
     </style>
@@ -189,8 +188,8 @@ mysqli_close($conn); // 关闭数据库连接
 <!-- 右侧内容展示区域 -->
 <div id="main-content">
     <div id="home" class="content-section">
-        <h1>欢迎来到学业导师管理系统</h1>
-        <h3>欢迎使用亲贴学业导师管理系统！
+        <h1>你好，<?php echo $NAME?>同学！</h1>
+        <h3>欢迎使用学业导师管理系统！
             <br>我们的系统旨在为学生提供便捷的导师管理功能，确保每位学生都能找到最合适的导师来指导他们的学术研究和职业发展。<br>
             以下是我们的主要功能介绍：
         </h3>
@@ -203,7 +202,7 @@ mysqli_close($conn); // 关闭数据库连接
             <p>系统记录所有的操作日志，学生和导师都可以查询到相关的操作记录，包括导师选择、退选以及其他重要操作。这些记录有助于保障操作的透明性和公正性，确保每一位学生和导师的权益得到有效保护。</p>
         </ul>
        <h3> 我们的目标是通过这一系统，为学生提供一个高效、透明、灵活的导师管理平台，助力每一位学生在学术道路上取得优异的成绩。
-           <br>欢迎使用亲贴学业导师管理系统，开启您的学术新篇章！</h3>
+           <br>欢迎使用学业导师管理系统，开启您的学业新篇章！</h3>
     </div>
     <div id="view_tutors" class="content-section" style="display:none;">
         <h1>导师信息</h1>
@@ -313,11 +312,12 @@ mysqli_close($conn); // 关闭数据库连接
     showSection('home');
 
     // 检查申请状态
-    if (application == 0 && re_choose == 0) {
+    if (application === 0 && re_choose === 0) {
         // 情况1: 学生尚未提交申请
         document.getElementById('app_status').innerHTML = '<h3>您尚未提交导师申请</h3>';
         document.getElementById('review_status').innerHTML = '<h3>请填写申请表并提交。</h3>';
-    } else {
+    }
+    if(application===1&& re_choose===0){
         // 情况2: 学生已提交申请
         document.getElementById('app_status').innerHTML = '<h3>您的导师申请已提交</h3>';
         document.getElementById('application_details').innerHTML = `
@@ -327,14 +327,31 @@ mysqli_close($conn); // 关闭数据库连接
             <p>第三志愿导师：编号 - ${third_tno}，姓名 - ${third_tname}</p>
         `;
     }
+    if(re_choose===1 && cancel_status==='PENDING'){
+        document.getElementById('app_status').innerHTML = '<h3>您的导师退选申请已提交</h3>';
+        document.getElementById('application_details').innerHTML = '<h3>请耐心等待导师处理</h3>';
+    }
+    if(re_choose===1 && cancel_status==='APPROVED'){
+        document.getElementById('app_status').innerHTML = '<h3>您的导师退选申请已批准</h3>';
+        document.getElementById('application_details').innerHTML = '<h3>请重新选择导师</h3>';
+    }
+    if(re_choose===1 && cancel_status==='REJECTED'){
+        document.getElementById('app_status').innerHTML = '<h3>您的导师退选申请已被退回</h3>';
+        document.getElementById('application_details').innerHTML = '<h3>如仍需要退选导师，请与导师联系</h3>';
+    }
+
 
     // 检查导师选择状态
-    if (re_choose == 0 && application == 1) {
+    if (re_choose === 0 && application === 1) {
         // 情况3: 学生已提交申请，但导师尚未选择
         document.getElementById('review_status').innerHTML = '<h3>导师正在查看您的申请，请耐心等待......</h3>';
         document.getElementById('result_status').innerHTML = '<h3>您目前还没有被导师选择。</h3>';
-    } else if (re_choose == 1) {
+    } else if (re_choose === 1 && cancel_status === '') {
         // 情况4: 学生被导师选择
+        document.getElementById('app_status').innerHTML = '<h3>您的导师退选申请已提交</h3>';
+        document.getElementById('application_details').style.display= 'none';
+        //不显示申请详情
+
         document.getElementById('review_status').innerHTML = `
             <h3>导师选择信息：</h3>
             <p>您已被导师选择：</p>
