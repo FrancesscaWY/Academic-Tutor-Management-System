@@ -30,11 +30,12 @@ if ($user_type == 'student') {
     if ($status == 1) {
         setcookie("copy_account", $copy_account, time() + (86400 * 30), "/"); // 86400 = 1 day
         echo "Cookie 'copy_account' set with value: $copy_account";
-        header("refresh:3;url=../student__page.php");//跳转到学生页面
+        header("refresh:3;url=./student__page.php");//跳转到学生页面
         echo "账户为" . $account;
         echo '登录成功，3秒后跳转到学生页面';
     } else {
-        echo '登录失败';
+        echo '登录失败,3秒后跳转到登录页面,请重新登录';
+        header("refresh:3;url=./login.html");//跳转到登录页面
     }
 }
 if ($user_type == 'tutor') {
@@ -54,10 +55,11 @@ if ($user_type == 'tutor') {
     if ($status == 1) {
          setcookie('copy_account', $copy_account, time() + 3600, '/');//设置cookie
         //如何读取整个account中的值，而不是只有一个数字
-        header("refresh:3;url=../tutor__.php");//跳转到教师页面
+        header("refresh:3;url=./tutor__.php");//跳转到教师页面
         echo '登录成功，3秒后跳转到教师页面';
     } else {
-        echo '登录失败';
+        echo '登录失败，3秒后跳转到登录页面，请重新登录';
+        header("refresh:3;url=./login.html");//跳转到登录页面
     }
 }
 

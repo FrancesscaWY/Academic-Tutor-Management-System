@@ -9,6 +9,15 @@ $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Datab
 // 获取当前导师的编号
 $current_tutor_no = $_COOKIE['copy_account'];
 
+//获取当前老师的姓名
+$sql = "SELECT TNAME FROM TUTORS WHERE TNO=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('s', $current_tutor_no);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$t_name = $row['TNAME'];
+
 // 查询所有选择当前导师为第一、第二或第三志愿的学生
 $sql = "
 SELECT DISTINCT 
@@ -54,7 +63,13 @@ $result = mysqli_query($conn, $sql);
     </div>
     <div id="main-content">
         <div id="home" class="content-section">
-            <h2>欢迎来到导师页面</h2>
+            <h2><?php echo $t_name ?>老师，您好！</h2>
+            <p>欢迎来到导师页面。</p>
+            <p>您可以在这里查看您已选择的学生、选择您为导师的学生以及处理学生的退选请求。</p>
+            <p>您可以通过左侧的导航链接查看相关内容。</p>
+            <p>如果您有任何问题，请联系管理员。</p>
+            <p>谢谢！</p>
+            <p>祝您工作愉快！</p>
             <p>请选择左侧的导航链接以查看相关内容。</p>
         </div>
         <div id="my-students" class="content-section">
@@ -174,7 +189,13 @@ $result = mysqli_query($conn, $sql);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                alert(xhr.responseText);
+                const status = xhr.responseText
+                console.log("状态码：" + status)
+                if (status === "1") {
+                    alert('操作成功');
+                } else {
+                    alert('操作失败');
+                }
                 button.innerText = '已选择';
                 button.disabled = true;
                 location.reload(); // 刷新页面以更新显示
@@ -188,7 +209,6 @@ $result = mysqli_query($conn, $sql);
         xhr.open('POST', 'handle_cancel_request.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send('action=' + action + '&request_id=' + requestId);
-
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 alert(xhr.responseText);

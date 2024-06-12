@@ -82,7 +82,14 @@ th, td {
     padding: 10px;
     text-align: left;
 }
-
+th,td:hover{
+    border: none    ;
+}
+tr:hover{
+    background-color: #e7e7e7;
+    border: none;
+    transition: 0.5s;
+}
 th {
     background-color: #f4f4f4;
 }

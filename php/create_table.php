@@ -31,25 +31,27 @@ mysqli_query($conn,$SQL2) or die('table_T created error');
 echo'Table_T created successfully<br>';
 
 $sql3='CREATE TABLE IF NOT EXISTS S_CHOICE_T(
-    S_C_ID INT AUTO_INCREMENT PRIMARY KEY UNIQUE ,
     SNO CHAR(13) NOT NULL UNIQUE ,
     SNAME CHAR(20) NOT  NULL,
     SDEPT CHAR(20),
     FRIST_TNO CHAR(13) NOT NULL,
     SECOND_TNO CHAR(13) ,
-    THIRD_TNO CHAR(13)                                 
+    THIRD_TNO CHAR(13),
+    APP_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    primary key (SNO,FRIST_TNO,SECOND_TNO,THIRD_TNO)
 );';
 mysqli_query($conn,$sql3) or die('table_S_C_T created error');
 echo 'Table_S_C_T created successfully<br>';
 
 $sql4='CREATE TABLE IF NOT EXISTS T_CHOICE_S(
-    T_C_ID INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
     TNO CHAR(13) NOT NULL,
     TNAME CHAR(20),
     MAJIOR CHAR(20),
     SNO CHAR(13) NOT NULL  UNIQUE,
     SNAME CHAR(20),
-    SDEPT CHAR(20)
+    SDEPT CHAR(20),
+    CHOOSE_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    primary key (TNO,SNO) 
 );';
 mysqli_query($conn,$sql4) or die('table_T_C_S created error');
 echo 'Table_T_C_S created successfully<br>';
