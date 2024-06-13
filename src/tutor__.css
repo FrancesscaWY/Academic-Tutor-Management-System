@@ -48,11 +48,41 @@ body {
 
 /* 右侧内容区域样式 */
 #main-content {
-    margin-left: 270px; /* 根据左侧栏宽度调整 */
+    margin-left: 310px; /* 根据左侧栏宽度调整 */
     padding: 20px;
     width: calc(100% - 270px); /* 确保右侧内容不超出屏幕 */
 }
 
+#main-content h2{
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+#main-content p{
+    width: 90%;
+    /*//前面空两格*/
+    /*text-indent: 1em;*/
+    font-size: 20px;
+    line-height: 40px;
+    color: #99aab5;
+}
+li{
+    width: 90%;
+    box-shadow: #dddddd 0px 0px 10px;
+    font-size: 22px;
+    line-height: 30px;
+    /*//不显示圆点*/
+    list-style-type: none;
+    background-color: #333333;
+    color: #dddddd;
+    border-radius: 15px;
+    padding-left: 10px;
+}
+#main-content h3{
+    font-size: 24px;
+    /*font-family: '楷体';*/
+    /*color: #99aab5;*/
+    line-height: 40px;
+}
 .content-section {
     display: none;
 }
@@ -100,6 +130,7 @@ button {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
+    /*margin-left: 50px;*/
 }
 
 button:hover {

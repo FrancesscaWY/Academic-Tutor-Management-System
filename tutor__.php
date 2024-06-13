@@ -40,7 +40,6 @@ WHERE
         AND T_CHOICES.TNO = '$current_tutor_no'
     )
 ";
-
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -55,7 +54,7 @@ $result = mysqli_query($conn, $sql);
 <body>
 <div id="container">
     <div id="sidebar">
-        <h2>导师导航</h2>
+        <h2>导师页面导航</h2>
         <a href="#home" onclick="showSection('home')">首页</a>
         <a href="#my-students" onclick="showSection('my-students')">我的学生</a>
         <a href="#student-applications" onclick="showSection('student-applications')">学生申请</a>
@@ -64,13 +63,25 @@ $result = mysqli_query($conn, $sql);
     <div id="main-content">
         <div id="home" class="content-section">
             <h2><?php echo $t_name ?>老师，您好！</h2>
-            <p>欢迎来到导师页面。</p>
-            <p>您可以在这里查看您已选择的学生、选择您为导师的学生以及处理学生的退选请求。</p>
-            <p>您可以通过左侧的导航链接查看相关内容。</p>
+            <h3>欢迎来到学业导师管理系统的导师页面！</h3>
+                <p>作为导师，您可以在这里查看您已选择的学生、选择您为导师的学生以及处理学生的退选请求。您可以高效地管理和支持您的学生，从申请审核到日常指导。
+                我们为您提供了全面的工具和资源，助力您的学术辅导工作。您可以通过左侧的导航链接查看相关内容,以下是您可以使用的功能：</p>
+            <ul>
+                <li>查看我的学生</li>
+                <p>
+                    导师可以通过系统浏览学生的详细信息，包括学生的年级、专业和联系方式等。方便地在线处理学生的选择申请。</p>
+                <li>处理学生申请</li>
+                <p>
+                    如果学生在指导过程中发现当前导师不符合自己的需求，系统允许导师在线处理退选申请。退选申请将会在导师和相关管理部门审核后生效，确保学生能够及时调整自己的指导安排。</p>
+                <li>处理退选申请</li>
+                <p>
+                    系统记录所有的操作日志，学生和导师都可以查询到相关的操作记录，包括导师选择、退选以及其他重要操作。这些记录有助于保障操作的透明性和公正性，确保每一位学生和导师的权益得到有效保护。</p>
+            </ul>
+            <p>我们的目标是通过这一系统，为导师提供一个高效、透明、灵活的学生管理平台，让导师专注于提供更优质的学术指导和支持。
+                <br>欢迎使用学业导师管理系统，开启您的学术新篇章！</p>
             <p>如果您有任何问题，请联系管理员。</p>
             <p>谢谢！</p>
             <p>祝您工作愉快！</p>
-            <p>请选择左侧的导航链接以查看相关内容。</p>
         </div>
         <div id="my-students" class="content-section">
             <h2>您已选择的学生</h2>
@@ -120,11 +131,12 @@ $result = mysqli_query($conn, $sql);
         </div>
         <div id="cancellation-requests" class="content-section">
             <h2>退选请求</h2>
-            <?php
+            <?php // 显示退选请求, 并提供同意和拒绝操作
+                  // 查询当前导师收到的所有未处理的退选请求
             $sql = "SELECT request_id, student_no, sname, request_message, request_date
                     FROM CANCELLATION_REQUESTS
                     WHERE tutor_no = '$current_tutor_no' AND request_status = 'pending'";
-            $result = mysqli_query($conn, $sql);
+            $result = mysqli_query($conn, $sql);//执行sql语句
 
             echo "<table border='1'>
                 <tr>
@@ -134,7 +146,7 @@ $result = mysqli_query($conn, $sql);
                     <th>请求日期</th>
                     <th>操作</th>
                 </tr>";
-
+                // 输出数据
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>";
                 echo "<td>" . htmlspecialchars($row['student_no']) . "</td>";
@@ -192,9 +204,9 @@ $result = mysqli_query($conn, $sql);
                 const status = xhr.responseText
                 console.log("状态码：" + status)
                 if (status === "1") {
-                    alert('操作成功');
+                    alert('选择学生成功！');
                 } else {
-                    alert('操作失败');
+                    alert('选择学生失败！');
                 }
                 button.innerText = '已选择';
                 button.disabled = true;
